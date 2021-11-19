@@ -1,21 +1,22 @@
 package com.example.news.listadapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.bumptech.glide.Glide
+import com.example.news.R
 
 import com.example.news.databinding.ItemRowBinding
 import com.example.news.model.db.NewsEntity
+import com.example.news.utils.calcularDiferenciaTemporal
 
 
-class NewsListAdapter(): ListAdapter<NewsEntity, NewsViewHolder> (NewsComparator()){
+class NewsListAdapter() : ListAdapter<NewsEntity, NewsViewHolder>(NewsComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder.create(parent)
     }
@@ -23,30 +24,33 @@ class NewsListAdapter(): ListAdapter<NewsEntity, NewsViewHolder> (NewsComparator
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val currentNews = getItem(position)
 
-        with(holder.binding){
-            imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-            tvTituloRow.text = currentNews.titulo
+        with(holder.binding) {
 
-            imageView.load(currentNews.url)
-
-            Log.e("prueba", currentNews.imagenUrl)
-
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            tvTituloRow.text = currentNews.titulo.substringBefore("-")
             tvfechaRow.text = currentNews.fecha.toString()
+            tvfuenteRow.text = currentNews.fuente
+
+            holder.unidorimagen(currentNews.imagenUrl)
+
+           tvfechaRow.text = calcularDiferenciaTemporal(currentNews.fecha)
+
+            cardView2.setOnClickListener {
+                Navigation.findNavController(holder.itemView).navigate(R.id.action_homeFragment_to_detailsFragment)
+            }
 
 
         }
 
 
-
-
     }
 }
 
-class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
+class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val binding = ItemRowBinding.bind(itemView)
 
-    companion object{
-        fun create(parent: ViewGroup):NewsViewHolder{
+    companion object {
+        fun create(parent: ViewGroup): NewsViewHolder {
             val layoutInflaterB = LayoutInflater.from(parent.context)
             val binding = ItemRowBinding.inflate(layoutInflaterB, parent, false)
 
@@ -57,22 +61,23 @@ class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
 
 
     }
-    fun unidorimagen(){
+
+    fun unidorimagen(url: String) {
         Glide.with(itemView)
-            .load("https://www.infobae.com/new-resizer/wXrH1WUz825r7GLGsjAnkUmwB5U=/1200x628/filters:format(jpg):quality(85)//cloudfront-us-east-1.images.arcpublishing.com/infobae/BZLVAIQZ5VARPBUKZZCXGZZTLM.jpg")
+            .load(url)
             .into(binding.imageView)
     }
 
 
 }
 
-class NewsComparator: DiffUtil.ItemCallback<NewsEntity>() {
+class NewsComparator : DiffUtil.ItemCallback<NewsEntity>() {
     override fun areItemsTheSame(oldItem: NewsEntity, newItem: NewsEntity): Boolean {
         return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: NewsEntity, newItem: NewsEntity): Boolean {
-        return  oldItem.fecha == newItem.fecha
+        return oldItem.fecha == newItem.fecha
     }
 
 }

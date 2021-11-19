@@ -13,6 +13,11 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun agregarListadoNews(listadoNews: List<NewsEntity>)
 
-    @Query("SELECT * FROM news_table")
+    @Query("SELECT * FROM news_table WHERE imagenUrl != '' AND contenido !='' ORDER BY fecha DESC")
     fun listarUltimasNoticias(): Flow<List<NewsEntity>>
 }
+
+/*
+    @Query("SELECT * FROM news_table")
+    fun listarUltimasNoticias(): Flow<List<NewsEntity>>
+ */

@@ -1,7 +1,6 @@
 package com.example.news.network
 
 
-
 import com.example.news.BuildConfig
 import com.example.news.model.NewsResponse
 import retrofit2.http.GET
@@ -9,7 +8,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    companion object{
+    companion object {
         val API_KEY = BuildConfig.API_KEY
     }
 
@@ -18,7 +17,8 @@ interface ApiService {
     @GET("top-headlines")
 
     suspend fun traerUltimasNoticiasAr(
-        @Query(value = "country") country:String = "ar",
-        @Query(value = "apiKey") apiKey :String =  API_KEY
-    ) : NewsResponse
+        @Query(value = "country") country: String = "ar",
+        @Query(value = "apiKey") apiKey: String = API_KEY,
+        @Query(value ="pageSize") pageSize:Int = 50
+    ): NewsResponse
 }
