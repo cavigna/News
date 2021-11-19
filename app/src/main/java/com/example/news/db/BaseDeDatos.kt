@@ -6,10 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.news.model.db.NewsEntity
+import com.example.news.model.db.NewsFavEntity
 import com.example.news.utils.Converters
 
 @TypeConverters(Converters::class)
-@Database(entities = [NewsEntity::class], version = 1, exportSchema = false)
+@Database(entities = [NewsEntity::class, NewsFavEntity::class], version = 1, exportSchema = false)
 abstract class BaseDeDatos : RoomDatabase() {
     abstract fun dao() : NewsDao
 
@@ -25,7 +26,7 @@ abstract class BaseDeDatos : RoomDatabase() {
                     context.applicationContext,
                     BaseDeDatos::class.java,
                     "news_db"
-                )
+                ).fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
 

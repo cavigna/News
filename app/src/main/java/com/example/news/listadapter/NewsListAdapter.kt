@@ -16,7 +16,7 @@ import com.example.news.model.db.NewsEntity
 import com.example.news.utils.calcularDiferenciaTemporal
 
 
-class NewsListAdapter() : ListAdapter<NewsEntity, NewsViewHolder>(NewsComparator()) {
+class NewsListAdapter(private val miExtractorNoticas: ExtractorNoticas) : ListAdapter<NewsEntity, NewsViewHolder>(NewsComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder.create(parent)
     }
@@ -36,6 +36,8 @@ class NewsListAdapter() : ListAdapter<NewsEntity, NewsViewHolder>(NewsComparator
            tvfechaRow.text = calcularDiferenciaTemporal(currentNews.fecha)
 
             cardView2.setOnClickListener {
+                miExtractorNoticas.alClick(currentNews)
+
                 Navigation.findNavController(holder.itemView).navigate(R.id.action_homeFragment_to_detailsFragment)
             }
 
@@ -43,6 +45,10 @@ class NewsListAdapter() : ListAdapter<NewsEntity, NewsViewHolder>(NewsComparator
         }
 
 
+    }
+
+    interface ExtractorNoticas{
+        fun alClick(news: NewsEntity)
     }
 }
 

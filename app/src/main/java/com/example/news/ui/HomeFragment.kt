@@ -12,10 +12,11 @@ import com.example.news.R
 import com.example.news.application.NewsApp
 import com.example.news.databinding.FragmentHomeBinding
 import com.example.news.listadapter.NewsListAdapter
+import com.example.news.model.db.NewsEntity
 import com.example.news.viewmodel.NewsModelFactory
 import com.example.news.viewmodel.NewsViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), NewsListAdapter.ExtractorNoticas {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var application: Application
 
@@ -37,7 +38,7 @@ class HomeFragment : Fragment() {
 
 
         val recyclerView = binding.recyclerView
-        val adapter = NewsListAdapter()
+        val adapter = NewsListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -52,6 +53,10 @@ class HomeFragment : Fragment() {
 
         return binding.root
 
+    }
+
+    override fun alClick(news: NewsEntity) {
+        viewModel.noticiaSelecionada.value = news
     }
 
 

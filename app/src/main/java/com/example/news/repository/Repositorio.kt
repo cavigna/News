@@ -3,6 +3,7 @@ package com.example.news.repository
 import com.example.news.db.NewsDao
 import com.example.news.model.Article
 import com.example.news.model.db.NewsEntity
+import com.example.news.model.db.NewsFavEntity
 import com.example.news.network.ApiService
 import com.example.news.utils.Converters
 import java.text.SimpleDateFormat
@@ -40,6 +41,11 @@ class Repositorio(private val api: ApiService, private val dao: NewsDao) {
     }
 
     fun listarNoticiasDB() = dao.listarUltimasNoticias()
+
+    suspend fun agregarFavorito(favEntity: NewsFavEntity) = dao.agregarFavNews(favEntity)
+    suspend fun eliminarFavorito(favEntity: NewsFavEntity) = dao.borrarFavorito(favEntity)
+
+    fun listarFavorito() = dao.listarFavoritos()
 }
 
 fun formateameLaFecha(fechaLoca: String): Date? {
