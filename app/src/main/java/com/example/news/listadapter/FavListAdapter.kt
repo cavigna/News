@@ -1,22 +1,27 @@
 package com.example.news.listadapter
 
 
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.news.R
+import com.example.news.databinding.ItemRowBinding
 import com.example.news.model.db.NewsEntity
 import com.example.news.model.db.NewsFavEntity
 import com.example.news.utils.calcularDiferenciaTemporal
 
-class FavListAdapter(private val miBorradorDeNoticias: MiBorradorDeNoticias): ListAdapter<NewsFavEntity, NewsViewHolder>(NewsFavCompardor()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        return NewsViewHolder.create(parent)
+class FavListAdapter(private val miBorradorDeNoticias: MiBorradorDeNoticias): ListAdapter<NewsFavEntity, NewsFavViewHolder>(NewsFavCompardor()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsFavViewHolder {
+        return NewsFavViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NewsFavViewHolder, position: Int) {
         val favorito = getItem(position)
 
         with(holder.binding) {
@@ -33,7 +38,7 @@ class FavListAdapter(private val miBorradorDeNoticias: MiBorradorDeNoticias): Li
             cardView2.setOnClickListener {
                // miBorradorDeNoticias.alClick(favorito)
 
-                Navigation.findNavController(holder.itemView).navigate(R.id.action_homeFragment_to_detailsFragment)
+                Navigation.findNavController(holder.itemView).navigate(R.id.action_favFragment_to_detailsFragment)
             }
 
 
@@ -54,5 +59,32 @@ class NewsFavCompardor : DiffUtil.ItemCallback<NewsFavEntity>() {
     override fun areContentsTheSame(oldItem: NewsFavEntity, newItem: NewsFavEntity): Boolean {
         return oldItem.fecha == newItem.fecha
     }
+
+}
+
+
+
+class NewsFavViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val binding = ItemRowBinding.bind(itemView)
+
+    companion object {
+        fun create(parent: ViewGroup): NewsFavViewHolder {
+            val layoutInflaterB = LayoutInflater.from(parent.context)
+            val binding = ItemRowBinding.inflate(layoutInflaterB, parent, false)
+
+            return NewsFavViewHolder(binding.root)
+
+
+        }
+
+
+    }
+
+    fun unidorimagen(url: String) {
+        Glide.with(itemView)
+            .load(url)
+            .into(binding.imageView)
+    }
+
 
 }

@@ -46,6 +46,8 @@ class Repositorio(private val api: ApiService, private val dao: NewsDao) {
     suspend fun eliminarFavorito(favEntity: NewsFavEntity) = dao.borrarFavorito(favEntity)
 
     fun listarFavorito() = dao.listarFavoritos()
+
+    suspend fun buscarNoticia(query: String) = api.buscarNoticia(query)
 }
 
 fun formateameLaFecha(fechaLoca: String): Date? {
@@ -55,19 +57,7 @@ fun formateameLaFecha(fechaLoca: String): Date? {
     return date
 }
 
-fun limpiameLaListaDeNulos(list: List<Article>): List<Article> {
 
-    return list.filter {
-        it.content.isEmpty()
-        it.description.isEmpty()
-        it.publishedAt.isEmpty()
-        it.title.isEmpty()
-        it.url.isEmpty()
-        it.urlToImage.isEmpty()
-    }
-
-
-}
 
 /*
     return list.filter {
@@ -86,4 +76,19 @@ fun limpiameLaListaDeNulos(list: List<Article>): List<Article> {
                 && art.publishedAt.isNotEmpty()
 
             )
+
+
+            fun limpiameLaListaDeNulos(list: List<Article>): List<Article> {
+
+    return list.filter {
+        it.content.isEmpty()
+        it.description.isEmpty()
+        it.publishedAt.isEmpty()
+        it.title.isEmpty()
+        it.url.isEmpty()
+        it.urlToImage.isEmpty()
+    }
+
+
+}
  */

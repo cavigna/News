@@ -2,6 +2,7 @@ package com.example.news.viewmodel
 
 import androidx.lifecycle.*
 import com.example.news.model.Article
+import com.example.news.model.NewsResponse
 import com.example.news.model.db.NewsEntity
 import com.example.news.model.db.NewsFavEntity
 import com.example.news.repository.Repositorio
@@ -15,6 +16,7 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
     val listadoNewsDB = repositorio.listarNoticiasDB().asLiveData()
 
     var noticiaSelecionada = MutableLiveData<NewsEntity>()
+    var noticiaFavSelecionada = MutableLiveData<NewsFavEntity>()
 
     val listadoFavoritos = repositorio.listarFavorito().asLiveData()
 
@@ -47,6 +49,15 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
         viewModelScope.launch(IO) {
             repositorio.eliminarFavorito(favorito)
         }
+    }
+
+    val resultadoBusqueda = MutableLiveData<NewsResponse>()
+
+    fun buscarNoticia(query: String){
+        viewModelScope.launch(IO){
+            resultadoBusqueda.postValue(repositorio.buscarNoticia(query))
+        }
+
     }
 }
 

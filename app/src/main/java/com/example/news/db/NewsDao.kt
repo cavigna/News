@@ -26,7 +26,7 @@ interface NewsDao {
     fun listarFavoritos(): Flow<List<NewsFavEntity>>
 
     @Query("SELECT * FROM news_fav_table WHERE fecha=:fecha")
-    fun chequearSiEsFav(fecha: Date)
+    fun chequearSiEsFav(fecha: Date): Flow<NewsFavEntity>
 }
 
 /*
