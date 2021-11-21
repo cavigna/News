@@ -48,6 +48,8 @@ class Repositorio(private val api: ApiService, private val dao: NewsDao) {
 
     fun listarFavorito() = dao.listarFavoritos()
 
+    fun chequearSiEsFav(fecha:Date) = dao.chequearSiEsFav(fecha)
+
     suspend fun buscarNoticia(query: String) = api.buscarNoticia(query)
 }
 

@@ -1,0 +1,19 @@
+{
+  "status": "ok",
+  "totalResults": 1,
+  "articles": [
+    {
+      "source": {
+        "id": "la-nacion",
+        "name": "La Nacion"
+      },
+      "author": "Hernán Cappiello",
+      "title": "La Corte dejó firme una sentencia a 3 años y 6 meses contra el ex funcionario Germán Kammerath",
+      "description": "Es por negociaciones incompatibles con la función pública en 2000; hubo disidencias de los jueces Rosenkrantz y Maqueda porque dicen que se violó el plazo razonable para el proceso",
+      "url": "https://www.lanacion.com.ar/politica/la-corte-dejo-firme-una-sentencia-a-3-anos-y-6-meses-contra-el-ex-funcionario-german-kammerath-nid28102021/",
+      "urlToImage": "https://resizer.glanacion.com/resizer/uWI-9SusBymhJT-RI2p5q_7WNLE=/768x0/filters:quality(80)/cloudfront-us-east-1.images.arcpublishing.com/lanacionar/CSTROHTH5JHIXO56DLK4ZAW4MM.jpg",
+      "publishedAt": "2021-10-28T19:52:30Z",
+      "content": "La Corte Suprema de Justicia dejó firme una condena a 3 años y seis meses de prisión contra el exfuncionario Germán Kammerath por negociaciones incompatibles con la función pública cuando fue intende… [+3581 chars]"
+    }
+  ]
+}

@@ -54,7 +54,7 @@ class MySearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    fun unidorimagenSearch(url: String) {
+    fun unidorimagenSearch(url: String?) {
         Glide.with(itemView)
             .load(url)
             .into(binding.imageView)

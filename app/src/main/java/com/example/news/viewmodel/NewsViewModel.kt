@@ -6,8 +6,12 @@ import com.example.news.model.NewsResponse
 import com.example.news.model.db.NewsEntity
 import com.example.news.model.db.NewsFavEntity
 import com.example.news.repository.Repositorio
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
 
@@ -61,6 +65,28 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
         }
 
     }
+
+    var  chequeResultado = MutableLiveData(false)
+
+
+    fun chequearSiEsFav(){
+        viewModelScope.launch(IO){
+            val fechaNoticiaSeleccionada = noticiaSelecionada.value?.fecha
+            val fechaNoticiaDB = fechaNoticiaSeleccionada?.let { repositorio.chequearSiEsFav(it) }
+
+            if (fechaNoticiaDB == fechaNoticiaSeleccionada){
+                chequeResultado.postValue(true)
+            }
+
+
+        }
+
+    }
+
+
+
+
+
 }
 
 
@@ -69,3 +95,18 @@ class NewsModelFactory(private val repositorio: Repositorio) : ViewModelProvider
         return NewsViewModel(repositorio) as T
     }
 }
+
+/*
+    fun chequearSiEsFav():Boolean{
+        viewModelScope.launch(IO){
+            val fechaNoticiaSeleccionada = noticiaSelecionada.value?.fecha
+            val fechaNoticiaDB = fechaNoticiaSeleccionada?.let { repositorio.chequearSiEsFav(it) }
+            val result = withContext(Dispatchers.Default){
+                fechaNoticiaSeleccionada == fechaNoticiaDB
+            }
+
+
+        }
+        return result
+    }
+ */
