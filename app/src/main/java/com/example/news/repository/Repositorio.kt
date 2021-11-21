@@ -6,6 +6,7 @@ import com.example.news.model.db.NewsEntity
 import com.example.news.model.db.NewsFavEntity
 import com.example.news.network.ApiService
 import com.example.news.utils.Converters
+import com.example.news.utils.formateameLaFecha
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,12 +51,7 @@ class Repositorio(private val api: ApiService, private val dao: NewsDao) {
     suspend fun buscarNoticia(query: String) = api.buscarNoticia(query)
 }
 
-fun formateameLaFecha(fechaLoca: String): Date? {
-    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-    val output = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val date = sdf.parse(fechaLoca)
-    return date
-}
+
 
 
 

@@ -28,8 +28,20 @@ interface ApiService {
     @GET("everything")
     suspend fun buscarNoticia(
         @Query(value = "q", encoded = true) q: String,
-        @Query("sortBy") sortBy: String="popularity",
+        @Query("sortBy") sortBy: String="publishedAt",
         @Query(value = "apiKey") apiKey: String = API_KEY,
         @Query(value = "pageSize") pageSize: Int = 50
     ):NewsResponse
 }
+
+
+
+/*
+    @GET("everything")
+    suspend fun buscarNoticia(
+        @Query(value = "q", encoded = true) q: String,
+        @Query("sortBy") sortBy: String="popularity",
+        @Query(value = "apiKey") apiKey: String = API_KEY,
+        @Query(value = "pageSize") pageSize: Int = 50
+    ):NewsResponse
+ */

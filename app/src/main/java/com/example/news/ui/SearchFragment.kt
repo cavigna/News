@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.application.NewsApp
 import com.example.news.databinding.FragmentSearchBinding
 import com.example.news.listadapter.SearchListAdapter
+import com.example.news.model.Article
 import com.example.news.viewmodel.NewsModelFactory
 import com.example.news.viewmodel.NewsViewModel
 
@@ -21,7 +23,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var application: Application
-    private val viewModel by viewModels<NewsViewModel> {
+    private val viewModel by activityViewModels<NewsViewModel> {
         NewsModelFactory((application as NewsApp).repositorio)
     }
 
@@ -39,7 +41,12 @@ class SearchFragment : Fragment() {
         val searchView = binding.searchView
 
         val recyclerView = binding.recyclerViewSearch
-        val adapter = SearchListAdapter()
+        val adapter = SearchListAdapter(object : SearchListAdapter.MiExtractorBusqueda{
+            override fun itemBuscado(article: Article) {
+                viewModel.noticiaBuscadaDetalles.value = article
+            }
+
+        })
         recyclerView.adapter =  adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

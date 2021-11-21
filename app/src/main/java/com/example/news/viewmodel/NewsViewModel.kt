@@ -18,10 +18,12 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
     var noticiaSelecionada = MutableLiveData<NewsEntity>()
     var noticiaFavSelecionada = MutableLiveData<NewsFavEntity>()
 
+    var noticiaBuscadaDetalles = MutableLiveData<Article>()
+
     val listadoFavoritos = repositorio.listarFavorito().asLiveData()
 
     init {
-        agregarListadoDB()
+       // agregarListadoDB()
     }
 
 

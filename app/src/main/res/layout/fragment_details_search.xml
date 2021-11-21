@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.DetailsFragment">
-
+    tools:context=".ui.DetailsSearchFragment">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="0dp"
         android:layout_height="350dp"
+        android:contentDescription="@string/imagen_noticia"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/img"
-        tools:src="@tools:sample/avatars"
-        android:contentDescription="@string/imagen_noticia" />
+        tools:src="@tools:sample/avatars" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
@@ -74,15 +73,16 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="40dp"
                 android:clickable="true"
+                android:contentDescription="@string/compartir"
+                android:focusable="true"
                 android:src="@drawable/ic_baseline_share_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="SpeakableTextPresentCheck"
-                android:focusable="true"
-                android:contentDescription="@string/compartir" />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_link"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -90,7 +90,6 @@
                 android:text="@string/noticia_completa"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:layout_constraintTop_toBottomOf="@+id/textView_contenido" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,5 +121,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

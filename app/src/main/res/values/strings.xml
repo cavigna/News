@@ -5,4 +5,7 @@
     <string name="buscar">Buscar</string>
     <string name="favoritos">Favoritos</string>
     <string name="noticias_guardadas">Noticias Guardadas</string>
+    <string name="imagen_noticia">Imagen Noticia</string>
+    <string name="compartir">compartir</string>
+    <string name="noticia_completa">Noticia Completa</string>
 </resources>
