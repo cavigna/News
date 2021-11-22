@@ -2,7 +2,6 @@ package com.example.news.ui
 
 import android.app.Application
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -12,22 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.asLiveData
 import coil.load
 import com.example.news.R
-
 import com.example.news.application.NewsApp
 import com.example.news.databinding.FragmentDetailsBinding
-import com.example.news.databinding.FragmentDetailsBinding.bind
-import com.example.news.databinding.FragmentDetailsBinding.inflate
-
-import com.example.news.listadapter.NewsListAdapter
+import com.example.news.databinding.FragmentDetailsFavBinding
 import com.example.news.model.db.NewsFavEntity
 import com.example.news.viewmodel.NewsModelFactory
 import com.example.news.viewmodel.NewsViewModel
 
-class DetailsFragment : Fragment() {
-    private lateinit var binding: FragmentDetailsBinding
+
+class DetailsFavFragment : Fragment() {
+
+    private lateinit var binding: FragmentDetailsFavBinding
     private lateinit var application: Application
 
     private val viewModel by activityViewModels<NewsViewModel> {
@@ -46,9 +42,9 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = inflate(layoutInflater, container, false)
+        binding = FragmentDetailsFavBinding.inflate(layoutInflater, container, false)
 
-        viewModel.noticiaSelecionada.observe(viewLifecycleOwner, { news ->
+        viewModel.noticiaFavSelecionada.observe(viewLifecycleOwner, { news ->
 
 
 
@@ -69,7 +65,6 @@ class DetailsFragment : Fragment() {
 
 
 
-
         val fb = binding.floatingActionButton
 
         fb.setOnClickListener {
@@ -84,16 +79,16 @@ class DetailsFragment : Fragment() {
         }
 
         binding.buttonLink.setOnClickListener {
-           val url = viewModel.noticiaSelecionada.value?.url
+            val url = viewModel.noticiaSelecionada.value?.url
             openWebPage(url!!)
         }
+
+
 
 
         return binding.root
 
     }
-
-
 
     private fun agregarFavorito(){
         val newsDetail = viewModel.noticiaSelecionada.value
@@ -113,26 +108,12 @@ class DetailsFragment : Fragment() {
     }
 
 
-   private fun openWebPage(url: String) {
+    private fun openWebPage(url: String) {
         val webpage: Uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, webpage)
         if (intent.resolveActivity(activity?.packageManager!!) == null) {
             startActivity(intent)
         }
     }
-
-
-
 }
 
-/*
-            viewModel.chequearSiEsFav()
-            viewModel.chequeResultado.observe(viewLifecycleOwner, {
-
-                if (it){
-                    binding.imageviewFavorito.setImageResource(R.drawable.ic_baseline_bookmark_24)
-                }
-
-
-            })
- */

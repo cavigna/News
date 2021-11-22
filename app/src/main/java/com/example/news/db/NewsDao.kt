@@ -25,10 +25,16 @@ interface NewsDao {
     @Query("SELECT * FROM news_fav_table")
     fun listarFavoritos(): Flow<List<NewsFavEntity>>
 
+    @Query("SELECT * FROM news_fav_table WHERE fecha=:url")
+    fun chequearSiEsFav(url: String): Flow<NewsFavEntity>
+
+
+
+}
+/*
     @Query("SELECT * FROM news_fav_table WHERE fecha=:fecha")
     fun chequearSiEsFav(fecha: Date): Flow<NewsFavEntity>
-}
-
+ */
 /*
     @Query("SELECT * FROM news_table")
     fun listarUltimasNoticias(): Flow<List<NewsEntity>>

@@ -36,9 +36,14 @@ class FavListAdapter(private val miBorradorDeNoticias: MiBorradorDeNoticias): Li
             tvfechaRow.text = calcularDiferenciaTemporal(favorito.fecha)
 
             cardView2.setOnClickListener {
-               // miBorradorDeNoticias.alClick(favorito)
+                miBorradorDeNoticias.alClick(favorito)
 
-                Navigation.findNavController(holder.itemView).navigate(R.id.action_favFragment_to_detailsFragment)
+                Navigation.findNavController(holder.itemView).navigate(R.id.action_favFragment_to_detailsFavFragment)
+            }
+
+            cardView2.setOnLongClickListener {
+                 miBorradorDeNoticias.borrar(favorito)
+                true
             }
 
 
@@ -48,6 +53,7 @@ class FavListAdapter(private val miBorradorDeNoticias: MiBorradorDeNoticias): Li
 
     interface MiBorradorDeNoticias{
         fun alClick(favorito: NewsFavEntity)
+        fun borrar(favorito: NewsFavEntity)
     }
 }
 

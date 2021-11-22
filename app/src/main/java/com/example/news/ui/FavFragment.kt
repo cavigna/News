@@ -50,7 +50,11 @@ class FavFragment : Fragment(), FavListAdapter.MiBorradorDeNoticias {
     }
 
     override fun alClick(favorito: NewsFavEntity) {
-        viewModel.noticiaFavSelecionada. value = favorito
+        viewModel.noticiaFavSelecionada.value = favorito
+    }
+
+    override fun borrar(favorito: NewsFavEntity) {
+        viewModel.eliminarFavorito(favorito)
     }
 
 

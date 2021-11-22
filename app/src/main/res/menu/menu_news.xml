@@ -16,7 +16,7 @@
         />
 
     <item
-        android:id="@+id/favoritos_menu"
+        android:id="@+id/fav_menu"
         android:icon="@drawable/ic_baseline_bookmark_24"
         android:title="@string/favoritos"/>
 

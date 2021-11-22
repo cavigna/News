@@ -1,6 +1,9 @@
 package com.example.news.utils
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDate
@@ -47,6 +50,7 @@ fun fechaApi(fechaLoca: String): String{
 
     return outputFormatter.format(fecha)
 }
+
 /*
 @SuppressLint("NewApi")
 fun calcularDiferenciaDeHoras(date: Date): Long {

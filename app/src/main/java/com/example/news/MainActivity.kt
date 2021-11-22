@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.home_menu-> navController.navigate(R.id.homeFragment)
                 R.id.search_menu-> navController.navigate(R.id.searchFragment)
-                R.id.favoritos_menu-> navController.navigate(R.id.favFragment)
+                R.id.fav_menu-> navController.navigate(R.id.favFragment)
             }
             true
         }

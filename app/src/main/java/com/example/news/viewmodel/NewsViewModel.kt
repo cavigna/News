@@ -1,5 +1,7 @@
 package com.example.news.viewmodel
 
+import android.accounts.NetworkErrorException
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.news.model.Article
 import com.example.news.model.NewsResponse
@@ -15,7 +17,7 @@ import java.util.*
 
 class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
 
-    val listadoNoticiasPrueba = MutableLiveData<List<Article>>()
+
 
     val listadoNewsDB = repositorio.listarNoticiasDB().asLiveData()
 
@@ -27,23 +29,22 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
     val listadoFavoritos = repositorio.listarFavorito().asLiveData()
 
     init {
-       // agregarListadoDB()
+       //agregarListadoDB()
     }
 
 
     fun agregarListadoDB() {
         viewModelScope.launch(IO) {
-        repositorio.agregarUltimasNoticasDB()
+        try {
+            repositorio.agregarUltimasNoticasDB()
+        }catch (e: NetworkErrorException){
+
+        }
+
+
         }
     }
 
-    fun traerUltimasNoticiasAr() {
-        viewModelScope.launch(IO) {
-            listadoNoticiasPrueba.postValue(
-                repositorio.traerUltimasNoticiasAr().articles
-            )
-        }
-    }
 
     fun agregarFavorito(favorito: NewsFavEntity){
         viewModelScope.launch(IO) {
@@ -66,22 +67,7 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
 
     }
 
-    var  chequeResultado = MutableLiveData(false)
 
-
-    fun chequearSiEsFav(){
-        viewModelScope.launch(IO){
-            val fechaNoticiaSeleccionada = noticiaSelecionada.value?.fecha
-            val fechaNoticiaDB = fechaNoticiaSeleccionada?.let { repositorio.chequearSiEsFav(it) }
-
-            if (fechaNoticiaDB == fechaNoticiaSeleccionada){
-                chequeResultado.postValue(true)
-            }
-
-
-        }
-
-    }
 
 
 
@@ -108,5 +94,53 @@ class NewsModelFactory(private val repositorio: Repositorio) : ViewModelProvider
 
         }
         return result
+    }
+
+
+
+
+    val pruebaMutable = noticiaSelecionada.value?.let { repositorio.chequearSiEsFav(it.url) }
+
+    fun prueba():List<String>{
+        val fecha: String? = noticiaSelecionada.value?.url
+        // val fechaNoticiaDB = fechaNoticiaSeleccionada?.let { repositorio.chequearSiEsFav(it) }
+        //val fechaNoticiaDB = repositorio.chequearSiEsFav(fecha).asLiveData().value!!.fecha
+
+        val uno = noticiaSelecionada.value!!.url
+        val dos = fecha?.let { repositorio.chequearSiEsFav(it).asLiveData().value }?.url
+
+        return listOf(uno, dos.toString())
+
+    }
+ */
+
+
+/*
+
+
+
+    var  chequeResultado = MutableLiveData(false)
+
+
+    fun chequearSiEsFav(){
+        viewModelScope.launch(IO){
+            val fecha: String? = noticiaSelecionada.value?.url
+           // val fechaNoticiaDB = fechaNoticiaSeleccionada?.let { repositorio.chequearSiEsFav(it) }
+            //val fechaNoticiaDB = repositorio.chequearSiEsFav(fecha).asLiveData().value!!.fecha
+
+            val uno = noticiaSelecionada.value!!.url
+            val dos = fecha?.let { repositorio.chequearSiEsFav(it).asLiveData().value }?.url
+
+            if (uno == dos){
+                chequeResultado.postValue(true)
+
+            }
+
+            Log.i("pinchila", uno)
+            Log.i("pinchila", dos.toString())
+
+
+        }
+
     }
  */
