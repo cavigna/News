@@ -17,8 +17,6 @@ import java.util.*
 
 class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
 
-
-
     val listadoNewsDB = repositorio.listarNoticiasDB().asLiveData()
 
     var noticiaSelecionada = MutableLiveData<NewsEntity>()
@@ -29,19 +27,15 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
     val listadoFavoritos = repositorio.listarFavorito().asLiveData()
 
     init {
-       //agregarListadoDB()
+       agregarListadoDB() // Al iniciar, se agregará la respuesta de la api a la DB
     }
 
 
-    fun agregarListadoDB() {
+    private fun agregarListadoDB() {
         viewModelScope.launch(IO) {
         try {
             repositorio.agregarUltimasNoticasDB()
-        }catch (e: NetworkErrorException){
-
-        }
-
-
+        }catch (e: NetworkErrorException){ }
         }
     }
 
@@ -66,12 +60,6 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
         }
 
     }
-
-
-
-
-
-
 
 }
 

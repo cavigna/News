@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import coil.load
-import com.example.news.R
 import com.example.news.application.NewsApp
 import com.example.news.databinding.FragmentDetailsSearchBinding
 import com.example.news.model.db.NewsFavEntity
