@@ -540,8 +540,8 @@ class DetailsFavFragment : Fragment() {
 ```
 Dejo algunas imágenes de la Base de Datos
 
-<image src= "./Clase_102__Evaluación_Módulo_4/images/3.jpg">
-<image src= "./Clase_102__Evaluación_Módulo_4/images/4.jpg">
+<image src= "./images/3.jpg">
+<image src= "./images/4.jpg">
 
 
 ## 13 - Testing
@@ -658,7 +658,7 @@ class RemoteTest {
     }
 }
 ```
-<image src= "./Clase_102__Evaluación_Módulo_4/images/5.jpg">
+<image src= "./images/5.jpg">
 
 ### Local Testing
 ```kotlin
@@ -762,136 +762,6 @@ class LocalDBTest {
     }
 }
 ```
-<image src= "./Clase_102__Evaluación_Módulo_4/images/6.jpg">
-
-# [Rick And Morty App]() - (<https://rickandmortyapi.com/>)
-A esta altura supongo que no es necesario volver a explicar la lógica de los modelos, la db, etc. Pero si me gustaría resaltar lo siguiente:
-
-#### 1 - Consumo de datos Locales
-
-*Esta aplicación consume de una API rest para almacenar TODOS los personajes enla base de datos local. Una vez que esa llamada remota finaliza, la lógica de la app se enmarca dentro de la base de datos.*
-
-```kotlin
+<image src= "./images/6.jpg">
 
 
-
-class RickViewModel(private val repositorio: Repositorio) : ViewModel() {
-    val listadoPersonajesDB = repositorio.listadoPersonajeDB().asLiveData()
-    
-    init {       
-        agregarTodosPersonajesDB()
-    }   
-
-    fun agregarTodosPersonajesDB() {
-
-        viewModelScope.launch(IO) {
-            withContext(Main) {
-                for (i in 1..42) {
-                    val listadoApi = repositorio.listadoPersonajesTodosApi(pagina = i).resultados
-                    repositorio.agregarListadoPersonaDB(mapearAPItoDB(listadoApi))
-                }
-            }
-        }
-    }
-}
-/*
-Si lo implementara con Retrofit solamente...
-    var personajeRandomApi = MutableLiveData<Resultado>()
-    fun buscarpersonajeRandom() {
-        viewModelScope.launch(IO) {
-            val personaje = repositorio.personajeRandomApi()
-            personajeRandomApi.postValue(personaje)
-
-        }
-    }
- */
-
-```
-
-#### 2 - Busqueda De Personaje en tiempo real desde la DB
-La vista de búsqueda solo se da en la base de datos, a traves de LiveData con una query que busca por nombre en tiempo real
-```kotlin
-@Dao
-interface RickDao {
-    //.....//
-    @Query("SELECT * FROM personajes_tabla WHERE name LIKE :search")
-    fun buscarPersonaje(search: String?): Flow<List<Personaje>>
-}
-
-class Repositorio(private val api: ApiService, private val dao: RickDao) {
-//...//
-    fun buscarPersonaje(query:String) = dao.buscarPersonaje(query)
-}
-
-
-class RickViewModel(private val repositorio: Repositorio) : ViewModel() {
-
-    fun buscarPersonaje(query:String) = repositorio.buscarPersonaje(query).asLiveData()
-}
-
-class SearchFragment : Fragment() {
-        private val viewModel by viewModels<RickViewModel> {
-        RickModelFactory((application as RickApp).repositorio)
-    }
-            /*....*/
-
-        viewModel.personajeRandomDB.observe(viewLifecycleOwner, { personaje->
-
-        unidorTarjeta(personaje)
-
-        binding.cardView.setOnLongClickListener {
-            viewModel.agregarFavorito(convertirAFav(personaje))
-            Toast.makeText(requireContext(), "Personaje Guardado", Toast.LENGTH_SHORT).show()
-            true
-        }})
-        val searchView = binding.searchView2
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            android.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query!= null){
-                    searchDB(query)
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText!= null){
-                    searchDB(newText)
-                }
-                return true
-            }
-
-        })
-
-        /* ...*/
-
-    private fun searchDB(query:String){
-    val searchQuery = "%$query%"
-
-    viewModel.buscarPersonaje(searchQuery).observe(viewLifecycleOwner, {
-        adapter.submitList(it)
-    })
-
-    }
-}
-```
-#### 3 - Personaje Random desde la DB
-Implementación de un método que permite buscar en un personaje de la base de datos de forma aleatoria al iniciar la applicación:
-
-```kotlin
-@Dao
-interface RickDao{
-        @Query("SELECT * FROM personajes_tabla where id =:id")
-    fun personajeRandomDB(id:Int): Flow<Personaje>
-}
-
-class RickViewModel(private val repositorio: Repositorio){
-
-fun funPerRandomDB() = repositorio.personajeRandomDB(id = (1..826).random()).asLiveData()
-}
-
-```
-   
-<image src= "./Clase_102__Evaluación_Módulo_4/images/7.jpg">
-<image src= "./Clase_102__Evaluación_Módulo_4/images/8.jpg">
