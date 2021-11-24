@@ -27,7 +27,7 @@ class NewsViewModel(private val repositorio: Repositorio) : ViewModel() {
     val listadoFavoritos = repositorio.listarFavorito().asLiveData()
 
     init {
-       //agregarListadoDB() // Al iniciar, se agregará la respuesta de la api a la DB
+       agregarListadoDB() // Al iniciar, se agregará la respuesta de la api a la DB
     }
 
 
